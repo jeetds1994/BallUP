@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		845FEF771CD07804001260C8 /* intialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845FEF761CD07804001260C8 /* intialViewController.swift */; };
+		8466167F1CD8382F0054A137 /* highScoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8466167E1CD8382F0054A137 /* highScoresViewController.swift */; };
+		846616811CD838490054A137 /* Reachabililty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846616801CD838490054A137 /* Reachabililty.swift */; };
+		8467FFD01CDFD3F800F73A71 /* settingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8467FFCF1CDFD3F800F73A71 /* settingViewController.swift */; };
+		846857471CD11F9800CC6D1C /* howToPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846857461CD11F9800CC6D1C /* howToPlayViewController.swift */; };
+		8468EF131CA098B700B070EF /* RandomFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468EF121CA098B700B070EF /* RandomFunction.swift */; };
+		84804B3D1CBED12000B9DD22 /* RecentScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84804B3C1CBED12000B9DD22 /* RecentScores.swift */; };
+		84804B3F1CBED46E00B9DD22 /* HighScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84804B3E1CBED46E00B9DD22 /* HighScore.swift */; };
+		8495371A1CCA808400B54468 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849537191CCA808400B54468 /* CloudKit.framework */; };
 		84A1EBD31C95E8E40064DF80 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A1EBD21C95E8E40064DF80 /* AppDelegate.swift */; };
 		84A1EBD51C95E8E40064DF80 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 84A1EBD41C95E8E40064DF80 /* GameScene.sks */; };
 		84A1EBD71C95E8E40064DF80 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A1EBD61C95E8E40064DF80 /* GameScene.swift */; };
@@ -16,6 +25,7 @@
 		84A1EBE11C95E8E40064DF80 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A1EBDF1C95E8E40064DF80 /* LaunchScreen.storyboard */; };
 		84A1EBEC1C95E8E40064DF80 /* BallUPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A1EBEB1C95E8E40064DF80 /* BallUPTests.swift */; };
 		84A1EBF71C95E8E40064DF80 /* BallUPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A1EBF61C95E8E40064DF80 /* BallUPUITests.swift */; };
+		84E929791CBDC8E9003A03A8 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E929771CBDC8E9003A03A8 /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +46,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		845FEF761CD07804001260C8 /* intialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = intialViewController.swift; sourceTree = "<group>"; };
+		8466167E1CD8382F0054A137 /* highScoresViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = highScoresViewController.swift; sourceTree = "<group>"; };
+		846616801CD838490054A137 /* Reachabililty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachabililty.swift; sourceTree = "<group>"; };
+		8467FFCF1CDFD3F800F73A71 /* settingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingViewController.swift; sourceTree = "<group>"; };
+		846857461CD11F9800CC6D1C /* howToPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = howToPlayViewController.swift; sourceTree = "<group>"; };
+		8468EF121CA098B700B070EF /* RandomFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomFunction.swift; sourceTree = "<group>"; };
+		84804B3C1CBED12000B9DD22 /* RecentScores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentScores.swift; sourceTree = "<group>"; };
+		84804B3E1CBED46E00B9DD22 /* HighScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScore.swift; sourceTree = "<group>"; };
+		849537181CCA802900B54468 /* BallUP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BallUP.entitlements; sourceTree = "<group>"; };
+		849537191CCA808400B54468 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		84A1EBCF1C95E8E40064DF80 /* BallUP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BallUP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A1EBD21C95E8E40064DF80 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84A1EBD41C95E8E40064DF80 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -51,6 +71,7 @@
 		84A1EBF21C95E8E40064DF80 /* BallUPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BallUPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A1EBF61C95E8E40064DF80 /* BallUPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallUPUITests.swift; sourceTree = "<group>"; };
 		84A1EBF81C95E8E40064DF80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84E929781CBDC8E9003A03A8 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8495371A1CCA808400B54468 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +103,7 @@
 		84A1EBC61C95E8E40064DF80 = {
 			isa = PBXGroup;
 			children = (
+				849537191CCA808400B54468 /* CloudKit.framework */,
 				84A1EBD11C95E8E40064DF80 /* BallUP */,
 				84A1EBEA1C95E8E40064DF80 /* BallUPTests */,
 				84A1EBF51C95E8E40064DF80 /* BallUPUITests */,
@@ -101,11 +124,21 @@
 		84A1EBD11C95E8E40064DF80 /* BallUP */ = {
 			isa = PBXGroup;
 			children = (
+				849537181CCA802900B54468 /* BallUP.entitlements */,
+				846616801CD838490054A137 /* Reachabililty.swift */,
 				84A1EBD21C95E8E40064DF80 /* AppDelegate.swift */,
+				8466167E1CD8382F0054A137 /* highScoresViewController.swift */,
 				84A1EBD41C95E8E40064DF80 /* GameScene.sks */,
+				84E929771CBDC8E9003A03A8 /* Model.xcdatamodeld */,
+				84804B3C1CBED12000B9DD22 /* RecentScores.swift */,
+				84804B3E1CBED46E00B9DD22 /* HighScore.swift */,
 				84A1EBD61C95E8E40064DF80 /* GameScene.swift */,
+				8468EF121CA098B700B070EF /* RandomFunction.swift */,
 				84A1EBD81C95E8E40064DF80 /* GameViewController.swift */,
 				84A1EBDA1C95E8E40064DF80 /* Main.storyboard */,
+				8467FFCF1CDFD3F800F73A71 /* settingViewController.swift */,
+				846857461CD11F9800CC6D1C /* howToPlayViewController.swift */,
+				845FEF761CD07804001260C8 /* intialViewController.swift */,
 				84A1EBDD1C95E8E40064DF80 /* Assets.xcassets */,
 				84A1EBDF1C95E8E40064DF80 /* LaunchScreen.storyboard */,
 				84A1EBE21C95E8E40064DF80 /* Info.plist */,
@@ -199,6 +232,12 @@
 				TargetAttributes = {
 					84A1EBCE1C95E8E40064DF80 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 3NF5QTSZUB;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					84A1EBE61C95E8E40064DF80 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -264,8 +303,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A1EBD71C95E8E40064DF80 /* GameScene.swift in Sources */,
+				846857471CD11F9800CC6D1C /* howToPlayViewController.swift in Sources */,
+				84804B3F1CBED46E00B9DD22 /* HighScore.swift in Sources */,
 				84A1EBD91C95E8E40064DF80 /* GameViewController.swift in Sources */,
+				84E929791CBDC8E9003A03A8 /* Model.xcdatamodeld in Sources */,
+				8468EF131CA098B700B070EF /* RandomFunction.swift in Sources */,
+				845FEF771CD07804001260C8 /* intialViewController.swift in Sources */,
 				84A1EBD31C95E8E40064DF80 /* AppDelegate.swift in Sources */,
+				84804B3D1CBED12000B9DD22 /* RecentScores.swift in Sources */,
+				8466167F1CD8382F0054A137 /* highScoresViewController.swift in Sources */,
+				846616811CD838490054A137 /* Reachabililty.swift in Sources */,
+				8467FFD01CDFD3F800F73A71 /* settingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,10 +453,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BallUP/BallUP.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BallUP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BallUP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BallUPq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -416,10 +468,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BallUP/BallUP.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BallUP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BallUP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BallUPq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -492,6 +548,7 @@
 				84A1EBFD1C95E8E40064DF80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84A1EBFE1C95E8E40064DF80 /* Build configuration list for PBXNativeTarget "BallUPTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +557,7 @@
 				84A1EC001C95E8E40064DF80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84A1EC011C95E8E40064DF80 /* Build configuration list for PBXNativeTarget "BallUPUITests" */ = {
 			isa = XCConfigurationList;
@@ -508,8 +566,22 @@
 				84A1EC031C95E8E40064DF80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		84E929771CBDC8E9003A03A8 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				84E929781CBDC8E9003A03A8 /* Model.xcdatamodel */,
+			);
+			currentVersion = 84E929781CBDC8E9003A03A8 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 84A1EBC71C95E8E40064DF80 /* Project object */;
 }
