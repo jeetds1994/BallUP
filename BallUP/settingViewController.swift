@@ -17,13 +17,13 @@ class settingViewController: UIViewController {
     
     override func viewDidLoad() {
         backgroundColorSelected.selectedSegmentIndex = GameViewController.gameBackground
-        backgroundColorSelected.setTitle("Green", forSegmentAtIndex: 0)
-        backgroundColorSelected.setTitle("Brown", forSegmentAtIndex: 1)
-        backgroundColorSelected.setTitle("Gray", forSegmentAtIndex: 2)
-        backgroundColorSelected.setTitle("Red", forSegmentAtIndex: 3)
+        backgroundColorSelected.setTitle("Green", forSegmentAt: 0)
+        backgroundColorSelected.setTitle("Brown", forSegmentAt: 1)
+        backgroundColorSelected.setTitle("Gray", forSegmentAt: 2)
+        backgroundColorSelected.setTitle("Red", forSegmentAt: 3)
     }
     
-    @IBAction func backgroundColorSegment(sender: AnyObject) {
+    @IBAction func backgroundColorSegment(_ sender: AnyObject) {
         
         if backgroundColorSelected.selectedSegmentIndex == 0 {
             GameViewController.gameBackground = 0

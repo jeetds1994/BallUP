@@ -19,15 +19,15 @@ class RecentScores: NSManagedObject {
     @NSManaged var fourthScore: Int32
     @NSManaged var fifthScore: Int32
 
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
     
     init (pin: String, photoid: String, photourl: String, context: NSManagedObjectContext){
         
-        let entity = NSEntityDescription.entityForName("RecentScores", inManagedObjectContext: context)
+        let entity = NSEntityDescription.entity(forEntityName: "RecentScores", in: context)
         
-        super.init(entity: entity!, insertIntoManagedObjectContext: context)
+        super.init(entity: entity!, insertInto: context)
         
     }
     

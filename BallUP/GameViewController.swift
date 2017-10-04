@@ -19,7 +19,7 @@ class GameViewController: UIViewController, GameOverDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
 
         if let scene = GameScene(fileNamed:"GameScene") {
             // Configure the view.
@@ -27,13 +27,13 @@ class GameViewController: UIViewController, GameOverDelegate {
             print("orginal green color")
             }
             if GameViewController.gameBackground == 1 {
-            scene.backgroundColor = SKColor.brownColor()
+            scene.backgroundColor = SKColor.brown
             }
             if GameViewController.gameBackground == 2 {
-            scene.backgroundColor = SKColor.grayColor()
+            scene.backgroundColor = SKColor.gray
             }
             if GameViewController.gameBackground == 3 {
-            scene.backgroundColor = SKColor.redColor()
+            scene.backgroundColor = SKColor.red
             }
             skView = self.view as! SKView
             skView.showsFPS = true
@@ -43,7 +43,7 @@ class GameViewController: UIViewController, GameOverDelegate {
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             skView.presentScene(scene)
             scene.gamescene_delegate = self
             }
@@ -51,19 +51,19 @@ class GameViewController: UIViewController, GameOverDelegate {
     
     func gameOverDelegateFunc() {
 
-        navigationController?.popViewControllerAnimated(true)
-        navigationController?.navigationBarHidden = false
+        navigationController?.popViewController(animated: true)
+        navigationController?.isNavigationBarHidden = false
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .allButUpsideDown
         } else {
-            return .All
+            return .all
         }
     }
 
@@ -72,7 +72,7 @@ class GameViewController: UIViewController, GameOverDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 }

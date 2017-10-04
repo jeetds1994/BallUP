@@ -14,6 +14,30 @@ import SpriteKit
 import CoreMotion
 import CoreData
 import CloudKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 struct PhysicsCatagory {
     static let Ball: UInt32 = 0x1 << 1
@@ -67,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var highScoreLabel = SKLabelNode()
     
-    var container = CKContainer.defaultContainer()
+    var container = CKContainer.default()
     
     var publicDatabase: CKDatabase?
     
@@ -79,32 +103,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var activityIndicator = UIActivityIndicatorView()
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         /* Setup your scene here */
         
         // Double Tap
-        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTwoFingerTap")
+        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GameScene.handleTwoFingerTap))
         doubleTap.numberOfTouchesRequired = 2
         self.view!.addGestureRecognizer(doubleTap)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         
         let managedContext = appDelegate?.managedObjectContext
         
-        let fetchRequestLong = NSFetchRequest(entityName: "HighScore")
+        let fetchRequestLong = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
         
         do {
             
-            let results = try managedContext?.executeFetchRequest(fetchRequestLong) as! AnyObject
+            let results = try managedContext?.fetch(fetchRequestLong) as AnyObject
             
             let savedData = results as! [AnyObject]
             
             for index in savedData{
                 
-                if Int32((index.valueForKeyPath("HighScore")?.description)!) > GameScene.highScore{
+                if Int32(((index.value(forKeyPath: "HighScore") as AnyObject).description)!) > GameScene.highScore{
 
-                    let newhigh = Int32((index.valueForKeyPath("HighScore")?.description)!)
-                    let recID = (index.valueForKeyPath("recordID")?.description)!
+                    let newhigh = Int32(((index.value(forKeyPath: "HighScore") as AnyObject).description)!)
+                    let recID = ((index.value(forKeyPath: "recordID") as AnyObject).description)!
                     
                     GameScene.recordID = recID
                     GameScene.highScore = newhigh!
@@ -117,36 +141,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         publicDatabase = container.publicCloudDatabase
         
-        if Reachability.isConnectedToNetwork() == true{
-        
-        if GameScene.recordID != "" {
-        
-        let recordIDwithName = CKRecordID(recordName: GameScene.recordID)
-        publicDatabase?.fetchRecordWithID(recordIDwithName, completionHandler: { (record, error) in
-            
-            if record == nil{
-                
-            self.alert("Unable to retrieve high Score from iCloud ", message: "Check Connection and make sure you are signed in to iCloud", button: "Ok")
-            
-            }else{
-            
-            var highestCloudScore = Int32((record?.valueForKeyPath("currentScore")?.description)!)
-            
-            if GameScene.highScore < highestCloudScore{
-            GameScene.highScore = highestCloudScore!
-            }
-            
-            
-            }})
-        }}
-        
+//        if Reachability.isConnectedToNetwork() == true{
+//        
+//        if GameScene.recordID != "" {
+//        
+//        let recordIDwithName = CKRecordID(recordName: GameScene.recordID)
+//        publicDatabase?.fetch(withRecordID: recordIDwithName, completionHandler: { (record, error) in
+//            
+//            if record == nil{
+//                
+//            self.alert("Unable to retrieve high Score from iCloud ", message: "Check Connection and make sure you are signed in to iCloud", button: "Ok")
+//            
+//            }else{
+//            
+//            let highestCloudScore = Int32(((record?.value(forKeyPath: "currentScore") as AnyObject).description)!)
+//            
+//            if GameScene.highScore < highestCloudScore{
+//            GameScene.highScore = highestCloudScore!
+//            }
+//            
+//            
+//            }})
+//        }}
+//        
         createScene()
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
        /* Called when a touch begins */
         
-        spawn = SKAction.runBlock({
+        spawn = SKAction.run({
             () in
             self.createWalls()
         })
@@ -156,17 +180,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameStarted = true
             Ball.physicsBody?.affectedByGravity = true
 
-            let delay = SKAction.waitForDuration(2.0)
+            let delay = SKAction.wait(forDuration: 2.0)
             
             spawnDelay = SKAction.sequence([spawn, delay])
             
-            let spawnDelayForever = SKAction.repeatActionForever(spawnDelay)
+            let spawnDelayForever = SKAction.repeatForever(spawnDelay)
             
-            self.runAction(spawnDelayForever, withKey: "firstTenWalls")
+            self.run(spawnDelayForever, withKey: "firstTenWalls")
             
             let distance = CGFloat(self.frame.width + wallPair.frame.width)
             
-            let moveWalls = SKAction.moveByX(0, y: -distance, duration: NSTimeInterval(0.01 * distance))
+            let moveWalls = SKAction.moveBy(x: 0, y: -distance, duration: TimeInterval(0.01 * distance))
             
             let removeWalls = SKAction.removeFromParent()
             
@@ -174,27 +198,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Moves Ball
             Ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            Ball.physicsBody?.applyImpulse(CGVectorMake(0, 45))
+            Ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 45))
             
             if died == false{
             
             manager.startAccelerometerUpdates()
             manager.accelerometerUpdateInterval = 0.1
-            manager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue()){
+            manager.startAccelerometerUpdates(to: OperationQueue.main){
                 (data, error) in
                 
-                self.physicsWorld.gravity = CGVectorMake(CGFloat((data?.acceleration.x)!) * 10, -12)
+                self.physicsWorld.gravity = CGVector(dx: CGFloat((data?.acceleration.x)!) * 10, dy: -12)
                 //changing the number higher will result in moving the ball moving signficantly faster along the y axis.
             }}
             
         }else{
             if died == true {
             manager.stopAccelerometerUpdates()
-            NSOperationQueue.mainQueue().suspended = true
+            OperationQueue.main.isSuspended = true
             }else{
             // Moves Ball
             Ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            Ball.physicsBody?.applyImpulse(CGVectorMake(0, 45))
+            Ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 45))
             }
             
             if score > 10 && wave == 1{
@@ -218,14 +242,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
      
         for touch in touches{
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             
             if died == true{
                 
-                if restartButton.containsPoint(location){
+                if restartButton.contains(location){
                     restartScene()
                 }
-                if BackButton.containsPoint(location){
+                if BackButton.contains(location){
                     
                     print("BackButton")
                    /*
@@ -241,36 +265,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
    
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
-    func walls(time: NSTimeInterval, key: String, key2Stop: String, waveNumber: Int){
+    func walls(_ time: TimeInterval, key: String, key2Stop: String, waveNumber: Int){
         
         let distance = CGFloat(self.frame.width + wallPair.frame.width)
         
-        let moveWalls = SKAction.moveByX(0, y: -distance, duration: NSTimeInterval(0.01 * distance))
+        let moveWalls = SKAction.moveBy(x: 0, y: -distance, duration: TimeInterval(0.01 * distance))
         
         let removeWalls = SKAction.removeFromParent()
         
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
         wave = waveNumber
-        spawn = SKAction.runBlock({
+        spawn = SKAction.run({
         
             () in
-            self.removeActionForKey(key2Stop)
+            self.removeAction(forKey: key2Stop)
             
             self.createWalls()
         })
         
-        let delay = SKAction.waitForDuration(time)
+        let delay = SKAction.wait(forDuration: time)
         
         spawnDelay = SKAction.sequence([spawn, delay])
         
-        let spawnDelayForever = SKAction.repeatActionForever(spawnDelay)
+        let spawnDelayForever = SKAction.repeatForever(spawnDelay)
         
-        self.runAction(spawnDelayForever, withKey: key)
+        self.run(spawnDelayForever, withKey: key)
         /*
         let distance = CGFloat(self.frame.width + wallPair.frame.width)
         
@@ -290,34 +314,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         topBorder.setScale(0.50)
         topBorder.zRotation = CGFloat(M_PI / 2)
         topBorder.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
-        topBorder.physicsBody = SKPhysicsBody(rectangleOfSize: topBorder.size)
-        topBorder.physicsBody?.dynamic = false
+        topBorder.physicsBody = SKPhysicsBody(rectangleOf: topBorder.size)
+        topBorder.physicsBody?.isDynamic = false
         
         self.addChild(topBorder)
         
         bottomBorder = SKSpriteNode(imageNamed: "Wall")
         bottomBorder.setScale(0.5)
         bottomBorder.zRotation = CGFloat(M_PI / 2)
-        bottomBorder.position = CGPointMake(self.frame.width / 2, 0 + bottomBorder.frame.height / 2)
-        bottomBorder.physicsBody = SKPhysicsBody(rectangleOfSize: bottomBorder.size)
+        bottomBorder.position = CGPoint(x: self.frame.width / 2, y: 0 + bottomBorder.frame.height / 2)
+        bottomBorder.physicsBody = SKPhysicsBody(rectangleOf: bottomBorder.size)
         bottomBorder.physicsBody?.categoryBitMask = PhysicsCatagory.BottomWall
         bottomBorder.physicsBody?.collisionBitMask = PhysicsCatagory.Ball
         bottomBorder.physicsBody?.contactTestBitMask = PhysicsCatagory.Ball
         bottomBorder.physicsBody?.affectedByGravity = false
-        bottomBorder.physicsBody?.dynamic = false
+        bottomBorder.physicsBody?.isDynamic = false
         bottomBorder.zPosition = 3
         
         self.addChild(bottomBorder)
         
         scoreLabel.position = CGPoint(x: self.frame.width / 2 , y: (self.frame.height / 4) + (self.frame.height / 2))
         scoreLabel.text = "\(score)"
-        scoreLabel.hidden = true
+        scoreLabel.isHidden = true
         self.addChild(scoreLabel)
         
         
         Ball = SKSpriteNode(imageNamed: "Ball")
         Ball.setScale(0.5)
-        Ball.position = CGPointMake(self.frame.width / 2, 200)
+        Ball.position = CGPoint(x: self.frame.width / 2, y: 200)
         Ball.physicsBody = SKPhysicsBody(circleOfRadius: Ball.frame.height / 2)
         Ball.physicsBody?.categoryBitMask = PhysicsCatagory.Ball
         Ball.physicsBody?.collisionBitMask = PhysicsCatagory.Wall | PhysicsCatagory.BottomWall
@@ -330,16 +354,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let leftBorder = SKSpriteNode(imageNamed: "Wall")
         leftBorder.setScale(1)
         leftBorder.position = CGPoint(x: 270, y: self.frame.height / 2)
-        leftBorder.physicsBody = SKPhysicsBody(rectangleOfSize: leftBorder.size)
-        leftBorder.physicsBody?.dynamic = false
+        leftBorder.physicsBody = SKPhysicsBody(rectangleOf: leftBorder.size)
+        leftBorder.physicsBody?.isDynamic = false
         
         self.addChild(leftBorder)
         
         let rightBorder = SKSpriteNode(imageNamed: "Wall")
         rightBorder.setScale(1)
         rightBorder.position = CGPoint(x: 760, y: self.frame.height / 2)
-        rightBorder.physicsBody = SKPhysicsBody(rectangleOfSize: rightBorder.size)
-        rightBorder.physicsBody?.dynamic = false
+        rightBorder.physicsBody = SKPhysicsBody(rectangleOf: rightBorder.size)
+        rightBorder.physicsBody?.isDynamic = false
         
         self.addChild(rightBorder)
         
@@ -353,14 +377,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(highScoreLabel)
         
-        highScoreLabel.hidden = true
+        highScoreLabel.isHidden = true
         
     }
     
     func createWalls(){
         
-        tap2BeginLabel.hidden = true
-        scoreLabel.hidden = false
+        tap2BeginLabel.isHidden = true
+        scoreLabel.isHidden = false
         
         wallPair = SKNode()
         
@@ -378,8 +402,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leftWall.setScale(0.50)
         rightWall.setScale(0.50)
         
-        leftWall.physicsBody = SKPhysicsBody(rectangleOfSize: leftWall.size)
-        rightWall.physicsBody = SKPhysicsBody(rectangleOfSize: rightWall.size)
+        leftWall.physicsBody = SKPhysicsBody(rectangleOf: leftWall.size)
+        rightWall.physicsBody = SKPhysicsBody(rectangleOf: rightWall.size)
         
         //Gravity
         leftWall.physicsBody?.affectedByGravity = false
@@ -393,8 +417,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightWall.physicsBody?.collisionBitMask = PhysicsCatagory.Wall
         
         //Dynamic makes objects fixed in position and not affected by collison.
-        leftWall.physicsBody?.dynamic = false
-        rightWall.physicsBody?.dynamic = false
+        leftWall.physicsBody?.isDynamic = false
+        rightWall.physicsBody?.isDynamic = false
         
         wallPair.addChild(leftWall)
         wallPair.addChild(rightWall)
@@ -403,13 +427,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         scoreNode.size = CGSize(width: 1000, height: 3)
         scoreNode.position = CGPoint(x: leftWall.position.x, y: leftWall.position.y)
-        scoreNode.physicsBody = SKPhysicsBody(rectangleOfSize: scoreNode.size)
+        scoreNode.physicsBody = SKPhysicsBody(rectangleOf: scoreNode.size)
         scoreNode.physicsBody?.affectedByGravity = false
-        scoreNode.physicsBody?.dynamic = false
+        scoreNode.physicsBody?.isDynamic = false
         scoreNode.physicsBody?.categoryBitMask = PhysicsCatagory.Score
         scoreNode.physicsBody?.collisionBitMask = 0
         scoreNode.physicsBody?.contactTestBitMask = PhysicsCatagory.Ball
-        scoreNode.color = SKColor.blueColor()
+        scoreNode.color = SKColor.blue
         
         let randomPosition = CGFloat.random(min: -175, max: 175)
         
@@ -417,7 +441,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         wallPair.addChild(scoreNode)
         
-        wallPair.runAction(moveAndRemove)
+        wallPair.run(moveAndRemove)
         
         self.addChild(wallPair)
         
@@ -441,7 +465,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
         
@@ -458,9 +482,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if score > GameScene.highScore {
             GameScene.highScore = score
             highScoreLabel.text = "HighScore is \(GameScene.highScore)"
-            highScoreLabel.hidden = false
+            highScoreLabel.isHidden = false
             }else{
-            highScoreLabel.hidden = false
+            highScoreLabel.isHidden = false
             }
             
             var counter = 0
@@ -484,15 +508,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         died = false
         score = 0
         createScene()
-        tap2BeginLabel.hidden = false
+        tap2BeginLabel.isHidden = false
         
     }
     
-    func alert(title: String, message: String, button: String){
+    func alert(_ title: String, message: String, button: String){
         let alert = UIAlertView()
         alert.title = title
         alert.message = message
-        alert.addButtonWithTitle(button)
+        alert.addButton(withTitle: button)
         alert.show()
     }
     
@@ -503,25 +527,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         publicDatabase = container.publicCloudDatabase
         
         let myRecord = CKRecord(recordType: "Scores")
-        myRecord.setObject(String(score), forKey: "currentScore")
+        myRecord.setObject(String(score) as CKRecordValue, forKey: "currentScore")
         
-        publicDatabase!.saveRecord(myRecord, completionHandler:
+        publicDatabase!.save(myRecord, completionHandler:
             ({returnRecord, error in
                 if let err = error {
                     self.removeActivityIndicator()
                     print("Error in save2Cloud func, no internet connection, or iCloud is not signed in.")
                     if self.saveCounter == 0{
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                         self.alert("Unable to save score on iCloud", message: "Please Sign-in", button: "OK")}
                         self.saveCounter += 1
                         //Save Counter will prevent a alert every time the user dies within the game and will only notify them once.
             }} else {
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         
                     let recordName2Save = returnRecord?.recordID.recordName
                         
-                        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+                        let appDelegate = UIApplication.shared.delegate as? AppDelegate
                     
                         let managedContext = appDelegate?.managedObjectContext
                     
@@ -545,25 +569,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func handleTwoFingerTap() {
         
         var isGamePaused = Bool()
-        if view?.paused == false{
+        if view?.isPaused == false{
         isGamePaused = true
-        view?.paused = true
+        view?.isPaused = true
         }else{
-        view?.paused = false
+        view?.isPaused = false
         isGamePaused = false
         }
         
     }
     
     func addActivityIndicator(){
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
         self.activityIndicator.center = CGPoint(x: (self.view?.center.x)! , y: (self.view?.center.y)! + ((self.view?.center.y)! / 2))
         self.activityIndicator.startAnimating()
         self.view!.addSubview(self.activityIndicator)}
     }
     
     func removeActivityIndicator(){
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
         self.activityIndicator.removeFromSuperview()}
     }
 }

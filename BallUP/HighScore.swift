@@ -15,16 +15,16 @@ class HighScore: NSManagedObject {
     @NSManaged var recordID : String
     
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
         
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        super.init(entity: entity, insertInto: context)
     }
     
     init (highScore: Int32, recordID: String, context: NSManagedObjectContext){
         
-        let entity = NSEntityDescription.entityForName("HighScore", inManagedObjectContext: context)
+        let entity = NSEntityDescription.entity(forEntityName: "HighScore", in: context)
         
-        super.init(entity: entity!, insertIntoManagedObjectContext: context)
+        super.init(entity: entity!, insertInto: context)
         
         self.highScore = highScore
         self.recordID = recordID
